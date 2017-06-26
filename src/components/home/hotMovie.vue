@@ -3,7 +3,7 @@
 		<div class="movie-container" v-for="item in movies">
 			<div class="thumbnail">
 				<img v-lazyload="`https://gw.alicdn.com/${item.poster}`" alt="">
-				<img class="play" src="https://gw.alicdn.com/tps/TB1PH2uLXXXXXaLaXXXXXXXXXXX-60-60.png" alt="">
+				<img class="play" src="https://gw.alicdn.com/tps/TB1PH2uLXXXXXaLaXXXXXXXXXXX-60-60.png" @click="changeVedioState(item.preview[0].ipadUrl,`https://gw.alicdn.com/${item.poster}`)" alt="">
 			</div>
 			<div class="summary">
 				<div class="detail">
@@ -29,14 +29,24 @@
 </template>
 <script>
 	import { mapGetters } from 'vuex'
+	import { mapMutations } from 'vuex'
 	export default{
 		data (){
 			return {
-				cityRN:"",
+				vedioUrl:'',
+				posterUrl:''
 			}
 		},
 		methods:{
-
+			...mapMutations(['chanegVideo']),
+			changeVedioState(vedioUrl,posterUrl){
+				var video = {
+					coverUrl:posterUrl,
+					videoUrl:vedioUrl,
+					isShowVideo:true
+				}
+				this.$store.commit('chanegVideo', video)
+			}
 		},
 		created(){
 			
@@ -58,19 +68,19 @@
 		padding:10px;
 	}
 	.thumbnail{
-		width: 80px;
-		flex: 0 0 auto;
+		flex: 0 0 24%;
 		position: relative;
 	}
 	.thumbnail img{
 		width: 80%;
 	}
 	img.play{
-		width: 20px;
     position: absolute;
-    top: 36px;
-    left: 22px;
+    top: 50%;
+    left: 40%;
     opacity: 0.7;
+    width: 20%;
+    transform: translate(-50%,-50%);
 	}
 	.summary{
 		flex: 1;
@@ -79,7 +89,8 @@
 		justify-content: flex-start;
 	}
 	.detail{
-		width: 160px;
+		width: 0;
+    flex: 0 0 85%;
 	}
 	.actions{
 		flex: 1;

@@ -3,7 +3,7 @@
     <div class="main" :style="{height:'100%'}">
       <router-view></router-view>
     </div>
-    <footerNav></footerNav>
+    <footerNav :showNav="showNav"></footerNav>
   </div>
   
 </template>
@@ -32,5 +32,8 @@ export default {
   }
   body {
     background: #f5f5f5;
+  }
+  .main{
+    padding-bottom: 60px;
   }
 </style>

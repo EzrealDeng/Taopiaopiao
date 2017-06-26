@@ -16,9 +16,17 @@
 					</div>
 				</div>
 			</section>
-			<section v-show="isHotNav">
+			<section v-if="isHotNav">
 				<swiper :images="images"></swiper>
 				<hotMovie></hotMovie>
+			</section>
+			<section v-else='!isHotNav'>
+				<coming></coming>
+			</section>
+			<section>
+				<div class="video-section" v-if="isShowVideo" @click="chanegVideo({'isShowVideo':false})">
+					<videoPlay></videoPlay>
+				</div>
 			</section>
 	  </header>
 	</div>
@@ -28,7 +36,10 @@
 	import city from '../components/home/city.vue'
 	import swiper from '../components/home/swiper.vue'
 	import hotMovie from '../components/home/hotMovie.vue'
+	import coming from '../components/home/coming.vue'
+	import videoPlay from '../components/home/video.vue'
 	import { mapMutations } from 'vuex'
+	import { mapGetters } from 'vuex'
 	export default{
 		data(){
 			return {
@@ -37,21 +48,34 @@
 				hotList:[],
 				comingList:[],
 				images:[],
+				posterUrl:'',
+				vedioUrl:''
 			}
 		},
+		computed:{
+			...mapGetters(['isShowVideo'])
+		} ,
 		methods:{
 			...mapMutations([
 		    'showCityList',
-		    'changeAuthor'
+		    'changeAuthor',
+		    'chanegVideo'
 		  ]),
 		  changeTab (ev){
 		  	this.isHotNav = ev.target.getAttribute('hot') ? true : false;
+		  },
+		  showVideo (posterUrl,vedioUrl){
+		  	this.posterUrl = posterUrl;
+		  	this.vedioUrl = vedioUrl;
+		  	this.isShowVideo = true;
 		  }
 		},
 		components:{
 			city,
 			swiper,
-			hotMovie
+			hotMovie,
+			videoPlay,
+			coming
 		},
 		created(){
 			this.$http.get('/movie/swiper').then(function(res){
@@ -92,5 +116,13 @@
 	}
 	.selected{
 		border-bottom: 2px solid #ff4d64;
+	}
+	.video-section{
+		position: fixed;
+		width: 90%;
+		left: 5%;
+		top: 20%;
+		z-index: 99;
+		height: 100%;
 	}
 </style>

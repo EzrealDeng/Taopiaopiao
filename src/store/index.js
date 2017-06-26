@@ -28,6 +28,26 @@ const loading = {
 	mutations: loadingMutations
 }
 
+const videoStore = {
+	state:{
+		coverUrl:'',
+		videoUrl:'',
+		isShowVideo:false
+	},
+	mutations:{
+		chanegVideo(state,video ){
+			state.coverUrl = video.coverUrl;
+			state.videoUrl = video.videoUrl;
+			state.isShowVideo = video.isShowVideo;
+		}
+	},
+	getters:{
+		coverUrl: state =>state.coverUrl,
+		videoUrl: state =>state.videoUrl,
+		isShowVideo: state => state.isShowVideo,
+	}
+}
+
 const testStore = {
 	state:{
 		author:'Devin',
@@ -48,6 +68,7 @@ export default new Vuex.Store({
  	modules: {
  		city,
  		loading,
- 		testStore
+ 		testStore,
+ 		videoStore
  	},
 })
